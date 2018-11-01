@@ -27,7 +27,34 @@ class Perceptron():
         self.synapse_weights = self.synapse_weights - delta_avg * learning_rate
 
     def predict(self, inputs):
-        return self.sigmoid_function(np.dot(inputs, self.synapse_weights))
+        results = []
+        for i in inputs:
+            label = round(self.sigmoid_function(np.dot(i, self.synapse_weights))[0])
+            results.append(label)
+        return results
 
 
+if __name__ == "__main__":
 
+    ts_input = np.array([[0,0,1,0],
+                         [1,1,1,0],
+                         [1,0,1,1],
+                         [0,1,1,1],
+                         [0,1,0,1],
+                         [1,1,1,1],
+                         [0,0,0,0]])
+
+    ts_output = np.array([[0,1,1,0,0,1,0]]).T 
+
+    testing_data = np.array([[0,1,1,0],
+                             [0,0,0,1],
+                             [0,1,0,0],
+                             [1,0,0,1],
+                             [1,0,0,0],
+                             [1,1,0,0],
+                             [1,0,1,0]])
+
+    p_model = Perceptron()
+    p_model.fit(ts_input, ts_output, 100, 10)
+    #results = [round([0]) for x in testing_data]
+    print(p_model.predict(testing_data))
