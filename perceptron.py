@@ -1,6 +1,7 @@
 import numpy as np
 
 class Perceptron():
+    """ Perceptron Neural Net that classifies arrays of int in binary categories"""
     def __init__(self):
         self.synapse_weights = np.random.rand(4,1)
     
@@ -11,6 +12,10 @@ class Perceptron():
         return self.sigmoid_function(x) * (1 - self.sigmoid_function(x)) 
     
     def fit(self, inputs, expected_outputs, n_iterations = 10, learning_rate = 0.5):
+
+        """ Receive an array of ints and an array of binary categories corresponding to the int array classification 
+        and adjust the synapses weights to minimize error rate in the classification of the training set"""
+
         delta_weights = np.zeros((len(inputs[0]),len(inputs)))
         for iteration in range(n_iterations):
             print("Iteration #{}".format(iteration + 1))
@@ -27,6 +32,7 @@ class Perceptron():
         self.synapse_weights = self.synapse_weights - delta_avg * learning_rate
 
     def predict(self, inputs):
+        """ Receive an array of ints and classifies it into a binary category """
         results = []
         for i in inputs:
             label = round(self.sigmoid_function(np.dot(i, self.synapse_weights))[0])
@@ -56,5 +62,4 @@ if __name__ == "__main__":
 
     p_model = Perceptron()
     p_model.fit(ts_input, ts_output, 100, 10)
-    #results = [round([0]) for x in testing_data]
     print(p_model.predict(testing_data))
